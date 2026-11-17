@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#ffffff"><title>Додзё — журнал учеников</title>
+<style>
+:root{--bg:#f5f6f8;--card:#fff;--ink:#000;--mut:#000;--line:#e4e7ec;--red:#b3261e;--redsoft:#fef3f2;--ok:#067647;--oksoft:#ecfdf3;--amb:#b54708;--ambsoft:#fffaeb;--head:#fff;--headink:#1a1f2b;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,"Segoe UI",system-ui,-apple-system,"Noto Sans",sans-serif;font-variant-numeric:tabular-nums;-webkit-font-smoothing:antialiased}
+header{background:var(--head);border-bottom:1px solid var(--line)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+.top{display:flex;align-items:center;gap:12px;padding:14px 0 4px}
+.logo{width:40px;height:40px;border-radius:10px;background:var(--red);display:grid;place-items:center;font:700 16px "Noto Serif JP","Yu Mincho",serif;color:#fff;flex:none}
+.top h1{margin:0;font-size:17px;font-weight:700;letter-spacing:-.01em}
+.top small{display:block;color:var(--mut);font-size:12px}
+nav{display:flex;gap:4px;overflow-x:auto}
+nav button{background:none;border:0;color:var(--mut);padding:10px 12px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap}
+nav button:hover{color:var(--ink)}
+nav button.on{color:var(--red);border-color:var(--red)}
+main{padding:28px 20px 64px}
+h2{font-size:22px;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
+.sub{color:var(--mut);margin:0 0 20px;font-size:14px}
+.bar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:18px;align-items:center}
+input,select,textarea{font:inherit;color:var(--ink);background:#fff;border:1px solid #d0d5dd;border-radius:8px;padding:9px 12px;width:100%;box-shadow:0 1px 2px #1018280d}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:3px solid #b3261e26;border-color:var(--red)}
+.bar input{flex:1;min-width:180px;width:auto}
+.btn{background:var(--red);color:#fff;border:1px solid var(--red);border-radius:8px;padding:9px 16px;font:inherit;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 1px 2px #1018281a}
+.btn:hover{filter:brightness(.93)}
+.btn.ghost{background:#fff;color:var(--ink);border-color:#d0d5dd}
+.btn.sm{padding:6px 12px;font-size:13px}
+a.btn{text-decoration:none;display:inline-block}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card,.panel,.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 2px #1018280d}
+.card{padding:16px 16px 16px 20px;position:relative}
+.card::before{content:"";position:absolute;left:0;top:14px;bottom:14px;width:4px;border-radius:0 4px 4px 0;background:var(--bc,#999)}
+.hd{display:flex;gap:12px;align-items:center;margin-bottom:10px}
+.av{width:40px;height:40px;border-radius:50%;background:#f2f4f7;display:grid;place-items:center;font-weight:700;font-size:14px;flex:none}
+.card h3{margin:0;font-size:15px;font-weight:600}
+.meta{color:var(--mut);font-size:14px}::placeholder{color:#000;opacity:1}.btn[disabled]{background:#fff;color:#000;border:1px dashed #000;box-shadow:none;cursor:not-allowed;filter:none}
+.meta a{color:inherit}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;background:#f2f4f7;border-radius:999px;padding:2px 10px 2px 8px}
+.chip i{width:10px;height:10px;border-radius:50%;background:var(--bc);border:1px solid #0003}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:10px}
+.mini{height:6px;background:#eaecf0;border-radius:3px;flex:1;overflow:hidden}
+.mini b{display:block;height:100%;background:var(--red);border-radius:3px}
+.split{display:grid;grid-template-columns:minmax(0,340px) 1fr;gap:20px;align-items:start}
+.two{display:grid;grid-template-columns:2fr 1fr;gap:16px}
+@media (max-width:760px){.split,.two{grid-template-columns:1fr}}
+.panel{padding:18px}
+.mnav{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.mnav b{font-size:16px;text-transform:capitalize}
+.mnav button{background:#fff;border:1px solid #d0d5dd;color:var(--ink);width:34px;height:34px;border-radius:8px;font-size:18px;cursor:pointer}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal span{font-size:12px;color:var(--mut);font-weight:600;padding:4px 0}
+.cal button{aspect-ratio:1;border:1px solid transparent;background:none;color:var(--ink);border-radius:8px;font:inherit;cursor:pointer;position:relative}
+.cal button:hover{background:#f2f4f7}
+.cal button.tr{background:var(--red);color:#fff;font-weight:600}
+.cal button.td{border-color:var(--ink)}
+.cal button.sel{outline:2px solid var(--ink);outline-offset:1px}
+.cal button.void{visibility:hidden}
+.cal button.ev::after{content:"";position:absolute;bottom:3px;left:50%;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:#f79009}
+.cal button.off{background:#eaecf0;color:var(--mut)}
+.legend{font-size:12px;color:var(--mut);margin-top:10px}
+.who{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.who:last-child{border:0}
+.tog{min-width:96px;border:1px solid #98a2b3;background:#fff;color:var(--ink);border-radius:8px;padding:7px 10px;font:inherit;font-size:13px;font-weight:600;cursor:pointer}
+.tog.on{background:var(--ok);border-color:var(--ok);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:16px}
+.kpi{padding:16px;display:flex;flex-direction:column-reverse}
+.kpi b{font-size:28px;font-weight:700;letter-spacing:-.02em;line-height:1.2}
+.kpi span{color:var(--mut);font-size:13px;font-weight:500}
+.bars{display:flex;gap:6px;align-items:flex-end;height:160px}
+.bc{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:4px}
+.bc .meta{font-size:11px}
+.bc div{width:100%;background:var(--red);border-radius:4px 4px 0 0;min-height:3px;opacity:.9}
+.scr{overflow-x:auto}
+.tbl{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+.tbl th{text-align:left;font-size:12px;color:var(--mut);font-weight:600;padding:10px 12px;border-bottom:1px solid var(--line);white-space:nowrap}
+.tbl td{padding:12px;border-bottom:1px solid var(--line);vertical-align:middle}
+.tbl tr:last-child td{border:0}
+.pill{display:inline-block;min-width:48px;text-align:center;padding:2px 10px;border-radius:999px;font-weight:700;font-size:13px}
+.pill.g{background:var(--oksoft);color:var(--ok)}.pill.y{background:var(--ambsoft);color:var(--amb)}.pill.r{background:var(--redsoft);color:var(--red)}
+.empty{color:var(--mut);padding:28px;text-align:center;border:1px dashed #d0d5dd;border-radius:10px;font-size:14px}
+dialog{border:0;border-radius:16px;box-shadow:0 20px 50px #10182833;background:var(--card);color:var(--ink);width:min(460px,92vw);max-height:92vh;overflow:auto;padding:24px}
+dialog::backdrop{background:#10182866}
+dialog h2{margin-bottom:12px}
+label{display:block;font-size:13px;font-weight:600;color:var(--ink);margin:12px 0 6px}
+.acts{display:flex;gap:10px;justify-content:flex-end;margin-top:20px}
+.warn{color:var(--red);font-weight:600;font-size:13px;margin-top:4px}
+.ck{display:flex;gap:10px;align-items:center;font-size:15px;font-weight:500;color:var(--ink);padding:6px 0;margin:0}.ck input{width:auto}
+.doc{border:6px double var(--red);padding:40px 20px;text-align:center;background:#fff;color:#000}.doc h1{font:700 32px Georgia,serif;letter-spacing:.1em;margin:10px 0}.doc h2{font:700 28px Georgia,serif;margin:14px 0}.dk{font:700 40px serif;color:var(--red)}.sg{margin-top:40px}
+.jt{border-collapse:collapse;width:100%;font-size:13px}.jt td,.jt th{border:1px solid #999;padding:4px;text-align:center}.jt td:first-child{text-align:left}
+#pv{width:min(760px,96vw)}
+@media print{body *{visibility:hidden}#pv,#pv *{visibility:visible}#pv{position:absolute;left:0;top:0;width:100%;max-width:none;max-height:none;border:0;box-shadow:none}#pv .acts{display:none}}
+</style>
+</head>
+<body>
+<header><div class="wrap">
+  <div class="top"><div class="logo">空手</div><div><h1>Додзё</h1><small>ЖУРНАЛ УЧЕНИКОВ · KARATE</small></div></div>
+  <nav id="nav"><button data-v="today">Сегодня</button><button data-v="kids">Ученики</button><button data-v="att">Посещаемость</button><button data-v="stat">Статистика</button></nav>
+</div></header>
+<main><div class="wrap" id="app"></div></main>
+
+<dialog id="dlg"><h2 id="dt">Новый ученик</h2>
+  <label for="fn">ФИО</label><input id="fn" placeholder="Иванов Артём Сергеевич">
+  <label for="fd">Дата рождения</label><input id="fd" type="date">
+  <label for="fp">Телефон родителей</label><input id="fp" type="tel" placeholder="+7 900 000-00-00">
+  <label for="fb">Пояс</label><select id="fb"></select><label for="fb2">Пояс получен</label><input id="fb2" type="date"><label for="fg">Группа</label><input id="fg" list="gl" placeholder="Младшая"><datalist id="gl"></datalist><label for="fpn">Родитель (имя)</label><input id="fpn"><label for="fp2">Второй телефон</label><input id="fp2" type="tel"><label for="fm">Справка действует до</label><input id="fm" type="date"><label for="fpd">Оплачено до</label><input id="fpd" type="date"><label for="fnt">Заметки, травмы, соревнования</label><input id="fnt">
+  <div class="acts"><button class="btn ghost" id="fa" style="margin-right:auto">Аттестация</button><button class="btn ghost" id="cx">Отмена</button><button class="btn" id="ok">Сохранить</button></div>
+</dialog>
+
+<dialog id="cf"><p id="cft" style="margin:0;font-size:16px"></p><div class="acts"><button class="btn ghost" id="cfn">Отмена</button><button class="btn" id="cfy">Подтвердить</button></div></dialog>
+<dialog id="rq"></dialog>
+<dialog id="pv"><div id="pr"></div><div class="acts"><button class="btn ghost" id="pc">Закрыть</button><button class="btn" id="pp">Печать</button></div></dialog>
+<dialog id="evd"><h2>Событие</h2><p class="sub" id="evs"></p><label for="evt">Тип</label><select id="evt"><option value="a">🥋 Аттестация</option><option value="c">🏆 Соревнования</option><option value="s">⛺ Сбор</option><option value="o">🏖 Выходной / каникулы</option></select><label for="evn">Название</label><input id="evn" placeholder="Кубок города"><div class="acts"><button class="btn ghost" id="evx">Удалить</button><button class="btn ghost" id="evc">Отмена</button><button class="btn" id="evk">Сохранить</button></div></dialog>
+<dialog id="dd"><h2 id="ddt"></h2><p class="sub" id="dds"></p><textarea id="dx" style="height:200px" readonly></textarea><div class="acts"><button class="btn ghost" id="dc">Закрыть</button><button class="btn ghost" id="dl">Загрузить</button><button class="btn" id="dk">Копировать</button></div></dialog>
+<script>
+const BELTS=[["Белый","#f4f1ea"],["Жёлтый","#f0c030"],["Оранжевый","#ee8a1e"],["Зелёный","#3a9b4a"],["Синий","#2e6fd0"],["Коричневый","#7a4a26"],["Чёрный","#141414"]];
+const MON=["январь","февраль","март","апрель","май","июнь","июль","август","сентябрь","октябрь","ноябрь","декабрь"];
+const fmt=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const now=new Date(),TK=fmt(now);
+function seed(){
+  const kids=[["Иванов Артём Сергеевич","2015-03-12","+7 900 111-22-33",2],["Петрова София Андреевна","2016-07-21","+7 900 222-33-44",1],["Сидоров Макар Игоревич","2013-11-05","+7 900 333-44-55",4],["Козлова Алиса Дмитриевна","2014-11-20","+7 900 444-55-66",3],["Смирнов Лев Павлович","2017-09-14","+7 900 555-66-77",0],["Морозов Тимур Русланович","2012-05-18","+7 900 666-77-88",5]].map((k,i)=>{const bd=fmt(new Date(2026,i*2,10));return{id:i+1,name:k[0],dob:k[1],phone:k[2],belt:k[3],bdate:bd,group:i%2?"Старшая":"Младшая",parent:["Ольга","Мария","Игорь","Елена","Анна","Руслан"][i],med:fmt(new Date(2026,10+i%3,20)),paid:i==1?"2026-10-31":"2026-12-01",note:i==2?"Соревнования: 2 место на областном турнире":"",hist:[{belt:k[3],date:bd}]};});
+  const days={},att={};
+  for(let i=0;i<45;i++){const d=new Date(now);d.setDate(d.getDate()-i);const w=d.getDay();
+    if(w==2||w==4){const k=fmt(d);days[k]=1;att[k]={};kids.forEach((c,j)=>{if((j*7+i*3)%5!=0)att[k][c.id]=1;});}}
+  const ev={};[[10,"c","Кубок города"],[20,"a","Аттестация на пояса"]].forEach(x=>{ev[fmt(new Date(now.getFullYear(),now.getMonth(),now.getDate()+x[0]))]={t:x[1],n:x[2]};});return {kids,days,att,ev,why:{},next:7};
+}
+let S;try{S=JSON.parse(localStorage.getItem("dojo-v3"))}catch(e){}
+if(!S||!S.kids)S=seed();S.sched=S.sched||[2,4];S.ev=S.ev||{};S.why=S.why||{};
+const save=()=>{try{localStorage.setItem("dojo-v3",JSON.stringify(S))}catch(e){}};
+let cs="",grp="",view="today",month=new Date(now.getFullYear(),now.getMonth(),1),sel=TK,q="",period="all",editId=null;
+
+const groups=()=>[...new Set(S.kids.map(k=>k.group).filter(Boolean))];
+const inG=k=>!grp||k.group==grp;
+const gbar=()=>groups().length?`<div class="bar"><select id="gs" style="max-width:240px"><option value="">Все группы</option>${groups().map(g=>`<option ${g==grp?"selected":""}>${esc(g)}</option>`).join("")}</select></div>`:"";
+const dleft=d=>Math.round((new Date(d)-new Date(TK))/864e5);
+function warns(k){const w=[];
+ if(k.bdate&&k.belt<6){const n=new Date(k.bdate);n.setMonth(n.getMonth()+4);if(n<=now)w.push("🥋 Пора на аттестацию");}
+ if(k.med){const d=dleft(k.med);if(d<0)w.push("📄 Справка просрочена");else if(d<=30)w.push("📄 Справка истекает через "+plural(d,["день","дня","дней"]));}
+ if(k.paid&&k.paid<TK)w.push("💳 Не оплачено с "+ru(k.paid));
+ if(k.dob){const b=new Date(k.dob);let n=new Date(now.getFullYear(),b.getMonth(),b.getDate());if(fmt(n)<TK)n=new Date(now.getFullYear()+1,b.getMonth(),b.getDate());const d=dleft(fmt(n));if(d<=7)w.push("🎂 День рождения "+(d?"через "+plural(d,["день","дня","дней"]):"сегодня"));}
+ return w;}
+function info(k){let h="";
+ if(k.group||k.bdate)h+=`<div class="meta">${k.group?"Группа: "+esc(k.group):""}${k.group&&k.bdate?" · ":""}${k.bdate?"пояс с "+ru(k.bdate):""}</div>`;
+ if(k.note)h+=`<div class="meta">📝 ${esc(k.note)}</div>`;
+ if(k.hist&&k.hist.length>1)h+=`<div class="meta" style="font-size:12px">${k.hist.map(x=>BELTS[x.belt][0]+" "+ru(x.date)).join(" → ")}</div>`;
+ if(k.belt<6)h+=`<div class="meta">Аттестация: ${REQ(k.belt).filter((_,i)=>(k.done||[])[i]).length}/4</div>`;return h+badges(k)+warns(k).map(x=>`<div class="warn">${x}</div>`).join("");}
+function lostBlock(){const all=Object.keys(S.days).filter(k=>S.days[k]&&k<=TK).sort(),l2=all.slice(-2),ks=S.kids.filter(inG);
+ const lost=l2.length==2?ks.filter(k=>l2.every(d=>!(S.att[d]&&S.att[d][k.id]))):[];
+ const at=ks.filter(k=>warns(k).length),tel=k=>"tel:"+esc(k.phone.replace(/[^+\d]/g,""));
+ return (lost.length?`<div class="panel" style="margin-bottom:16px;border-left:6px solid var(--red)"><b>Давно не ходят</b><div class="meta">Пропустили две последние тренировки</div>${lost.map(k=>`<div class="who"><span>${esc(k.name)}</span><a class="btn sm" href="${tel(k)}">Позвонить</a></div>`).join("")}</div>`:"")+(at.length?`<div class="panel" style="margin-bottom:16px"><b>Требует внимания</b>${at.map(k=>`<div class="who"><div>${esc(k.name)}${warns(k).map(x=>`<div class="warn">${x}</div>`).join("")}</div><a class="btn ghost sm" href="${tel(k)}">Позвонить</a></div>`).join("")}</div>`:"");}
+function report(){const ds=Object.keys(S.days).filter(k=>S.days[k]).sort();const r=[["ФИО","Группа","Пояс",...ds.map(ru),"Посещений","%"]];S.kids.forEach(k=>{const v=ds.map(d=>S.att[d]&&S.att[d][k.id]?1:0),s=v.reduce((a,b)=>a+b,0);r.push([k.name,k.group||"",BELTS[k.belt][0],...v,s,ds.length?Math.round(s/ds.length*100):0]);});return r.map(x=>x.join("\t")).join("\n");}
+function openData(m){dd.dataset.m=m;ddt.textContent=m=="b"?"Резервная копия":"Отчёт для Excel";dds.textContent=m=="b"?"Скопируйте текст и сохраните в надёжном месте. Чтобы восстановить данные, вставьте текст сюда и нажмите «Загрузить».":"Скопируйте и вставьте в Excel или Google Таблицы.";dx.readOnly=m!="b";dx.value=m=="b"?JSON.stringify(S):report();dl.style.display=m=="b"?"":"none";dd.showModal();}
+const EV={a:["🥋","Аттестация"],c:["🏆","Соревнования"],s:["⛺","Сбор"],o:["🏖","Выходной / каникулы"]};
+const KATA=["Тайкёку Сёдан","Хэйан Сёдан","Хэйан Нидан","Хэйан Сандан","Хэйан Ёндан","Хэйан Годан"];
+const REQ=b=>["Кихон: стойки, удары, блоки","Ката: "+KATA[b],"Кумитэ: "+(b<2?"гохон-кумитэ":b<4?"санбон и иппон-кумитэ":"дзию-иппон-кумитэ"),"Нормативы: отжимания "+(10+b*5)+", пресс "+(15+b*5)];
+let rid=null;
+const evLine=()=>{const e=S.ev[sel];return e?`<div class="warn" style="color:var(--ink);margin:0 0 8px">${EV[e.t][0]} ${EV[e.t][1]}${e.n?": "+esc(e.n):""}</div>`:"";};
+function badges(k){const ds=Object.keys(S.days).filter(d=>S.days[d]&&d<=TK).sort();let t=0,best=0,run=0;
+ ds.forEach(d=>{if(S.att[d]&&S.att[d][k.id]){t++;run++;best=Math.max(best,run);}else if(!"bu".includes((S.why[d]||{})[k.id]||"-"))run=0;});
+ const m=[200,100,50,25,10].find(n=>t>=n),s=[20,10,5].find(n=>best>=n);
+ return m||s?`<div class="meta" style="margin-top:4px">${m?"⭐ "+m+"+ тренировок ":""}${s?"🔥 серия "+best:""}${run>=3?" · сейчас "+run+" подряд":""}</div>`:"";}
+function vToday(){const isT=!!S.days[TK],cur=S.att[TK]||{},n=S.kids.length,pr=S.kids.filter(k=>cur[k.id]).length,e=S.ev[TK],up=Object.keys(S.ev).filter(d=>d>TK).sort().slice(0,4);
+ return `<h2>Сегодня</h2><p class="sub">${now.toLocaleDateString("ru-RU",{weekday:"long",day:"numeric",month:"long"})}</p><div class="panel" style="margin-bottom:16px;border-left:6px solid var(--red)">${e?`<div class="warn" style="color:var(--ink);margin:0 0 6px">${EV[e.t][0]} ${EV[e.t][1]}${e.n?": "+esc(e.n):""}</div>`:""}${isT?`<b>Сегодня тренировка</b><div class="meta">Пришли ${pr} из ${n}</div><div class="row"><div class="mini"><b style="width:${n?pr/n*100:0}%"></b></div></div>`:`<b>Сегодня тренировки нет</b>`}<div class="row"><button class="btn sm" data-a="goatt">${isT?"Отметить посещаемость":"Открыть календарь"}</button></div></div>${up.length?`<div class="panel" style="margin-bottom:16px"><b>Ближайшие события</b>${up.map(d=>`<div class="who"><span>${EV[S.ev[d].t][0]} ${esc(S.ev[d].n||EV[S.ev[d].t][1])}</span><span class="meta">${ru(d)}</span></div>`).join("")}</div>`:""}${lostBlock()}`;}
+function chartHtml(){const ds=Object.keys(S.days).filter(k=>S.days[k]&&k<=TK).sort(),ms={};
+ ds.forEach(d=>{const m=d.slice(0,7),o=ms[m]=ms[m]||{t:0,v:0},ks=cs?S.kids.filter(k=>k.id==cs):S.kids.filter(inG);o.t+=ks.length;ks.forEach(k=>{if(S.att[d]&&S.att[d][k.id])o.v++;});});
+ const keys=Object.keys(ms).slice(-6);
+ return `<div class="panel" style="margin-bottom:16px"><div class="row" style="margin:0 0 10px"><b>Динамика по месяцам</b><select id="cs" style="max-width:220px;width:auto"><option value="">Вся группа</option>${S.kids.map(k=>`<option value="${k.id}" ${cs==k.id?"selected":""}>${esc(k.name.split(" ").slice(0,2).join(" "))}</option>`).join("")}</select></div>${keys.length?`<div style="display:flex;gap:10px;align-items:flex-end;height:140px">${keys.map(m=>{const o=ms[m],p=o.t?Math.round(o.v/o.t*100):0;return `<div style="flex:1;text-align:center;display:flex;flex-direction:column;justify-content:flex-end;height:100%"><span class="meta">${p}%</span><div style="background:var(--red);height:${p}%;min-height:2px;border-radius:4px 4px 0 0"></div><span class="meta" style="font-size:12px">${MON[+m.slice(5)-1].slice(0,3)}</span></div>`}).join("")}</div>`:`<div class="empty">Нет данных</div>`}</div>`;}
+function openReq(id){rid=id;const k=S.kids.find(x=>x.id==id),r=REQ(k.belt),d=k.done||[],n=r.filter((_,i)=>d[i]).length;
+ rq.innerHTML=`<h2>Аттестация</h2><p class="sub">${esc(k.name)}<br>${beltChip(k.belt)}${k.belt<6?" → "+BELTS[k.belt+1][0]+" пояс":""}</p>${k.belt<6?r.map((t,i)=>`<label class="ck"><input type="checkbox" data-i="${i}" ${d[i]?"checked":""}> ${t}</label>`).join("")+`<div class="mini" style="margin:12px 0"><b style="width:${n*25}%"></b></div><div class="meta">Сдано ${n} из 4</div>`:`<div class="empty">Высший пояс 🎉</div>`}<div class="acts"><button class="btn ghost" data-r="x">Закрыть</button><button class="btn ghost" data-r="g">Грамота</button>${k.belt<6?`<button class="btn" data-r="p" ${n<4?"disabled":""}>Присвоить пояс</button>`:""}</div>`;
+ if(!rq.open)rq.showModal();}
+function printDoc(t,k){let h="";const bn=k?BELTS[k.belt][0]:"";
+ if(t=="c")h=`<div class="doc"><div class="dk">空手</div><h1>СЕРТИФИКАТ</h1><p>Настоящим подтверждается, что</p><h2>${esc(k.name)}</h2><p>успешно прошёл(а) аттестацию и получил(а)</p><h1 style="color:var(--red)">${bn} пояс</h1><p>Дата: ${ru(k.bdate||TK)}</p><p class="sg">Тренер: ______________________</p></div>`;
+ if(t=="g")h=`<div class="doc"><div class="dk">空手</div><h1>ГРАМОТА</h1><p>награждается</p><h2>${esc(k.name)}</h2><p>за упорство, дисциплину и успехи в карате</p><p>${k.group?esc(k.group)+" · ":""}${bn} пояс</p><p>Дата: ${ru(TK)}</p><p class="sg">Тренер: ______________________</p></div>`;
+ if(t=="j"){const mk=TK.slice(0,7),ds=Object.keys(S.days).filter(d=>S.days[d]&&d.startsWith(mk)).sort();h=`<h2>Журнал посещаемости — ${MON[now.getMonth()]} ${now.getFullYear()}</h2><table class="jt"><tr><th>ФИО</th>${ds.map(d=>`<th>${+d.slice(8)}</th>`).join("")}</tr>${S.kids.filter(inG).map(k=>`<tr><td>${esc(k.name)}</td>${ds.map(d=>`<td>${S.att[d]&&S.att[d][k.id]?"+":({b:"Б",u:"У",n:"Н"})[(S.why[d]||{})[k.id]]||""}</td>`).join("")}</tr>`).join("")}</table><p class="meta">+ был · Б болел · У уважительная · Н без причины</p>`;}
+ pr.innerHTML=h;pv.showModal();}
+function openEv(){const e=S.ev[sel]||{};evs.textContent=ru(sel);evt.value=e.t||"c";evn.value=e.n||"";evx.style.display=e.t?"":"none";evd.showModal();}
+const age=d=>{if(!d)return"";const b=new Date(d);let a=now.getFullYear()-b.getFullYear();if(now<new Date(now.getFullYear(),b.getMonth(),b.getDate()))a--;return a;};
+const ru=d=>d?d.split("-").reverse().join("."):"—";
+const plural=(n,a)=>{const m=n%100,l=n%10;return n+" "+(m>10&&m<15?a[2]:l==1?a[0]:l>1&&l<5?a[1]:a[2]);};
+function trDays(){const mk=TK.slice(0,7);return Object.keys(S.days).filter(k=>S.days[k]&&k<=TK&&(period=="all"||k.startsWith(mk))).sort();}
+function stat(k,ds){const v=ds.filter(d=>S.att[d]&&S.att[d][k.id]).length,w=d=>(S.why[d]||{})[k.id],ab=d=>!(S.att[d]&&S.att[d][k.id]),ex=ds.filter(d=>ab(d)&&"bu".includes(w(d)||"-")).length,nn=ds.filter(d=>ab(d)&&w(d)=="n").length,den=ds.length-ex;return{v,ex,nn,den,p:den>0?Math.round(v/den*100):0};}
+const beltChip=b=>`<span class="chip" style="--bc:${BELTS[b][1]}"><i></i>${BELTS[b][0]} пояс</span>`;
+
+function render(){
+  document.querySelectorAll("#nav button").forEach(b=>b.classList.toggle("on",b.dataset.v==view));
+  const a=document.getElementById("app");
+  a.innerHTML=view=="today"?vToday():view=="kids"?vKids():view=="att"?vAtt():vStat();
+}
+function vKids(){
+  const ds=trDays();
+  const list=S.kids.filter(k=>k.name.toLowerCase().includes(q.toLowerCase())&&inG(k));
+  return `<h2>Ученики</h2><p class="sub">Всего учеников: ${S.kids.length}</p>${gbar()}
+  <div class="bar"><input id="q" placeholder="Поиск по ФИО…" value="${esc(q)}"><button class="btn" data-a="add">+ Добавить ученика</button><button class="btn ghost" data-a="bk">Резервная копия</button></div>
+  ${list.length?`<div class="grid">${list.map(k=>{const s=stat(k,ds);return `<div class="card" style="--bc:${BELTS[k.belt][1]}">
+    <div class="hd"><div class="av">${esc(k.name.split(" ").slice(0,2).map(w=>w[0]).join(""))}</div><div><h3>${esc(k.name)}</h3>
+    <div class="meta">${ru(k.dob)} · ${plural(age(k.dob),["год","года","лет"])}</div></div></div>
+    <div class="meta">Родители: <a href="tel:${esc(k.phone.replace(/[^+\d]/g,""))}">${esc(k.phone)}</a></div>
+    ${k.parent||k.phone2?`<div class="meta">${esc(k.parent||"")} ${k.phone2?`<a href="tel:${esc(k.phone2.replace(/[^+\d]/g,""))}">${esc(k.phone2)}</a>`:""}</div>`:""}${info(k)}<div class="row">${beltChip(k.belt)}<span class="meta">${s.p}%</span></div>
+    <div class="row"><div class="mini"><b style="width:${s.p}%"></b></div></div>
+    <div class="row"><button class="btn ghost sm" data-a="edit" data-id="${k.id}">Изменить</button><button class="btn ghost sm" data-a="del" data-id="${k.id}">Удалить</button></div></div>`}).join("")}</div>`:`<div class="empty">Никого не найдено</div>`}`;
+}
+function vAtt(){
+  const y=month.getFullYear(),m=month.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+  let cells="";for(let i=0;i<off;i++)cells+=`<button class="void"></button>`;
+  for(let d=1;d<=n;d++){const k=fmt(new Date(y,m,d));cells+=`<button data-a="day" data-k="${k}" class="${S.days[k]?"tr ":""}${k==TK?"td ":""}${S.ev[k]?"ev ":""}${S.ev[k]&&S.ev[k].t=="o"?"off ":""}${k==sel?"sel":""}">${d}</button>`;}
+  const isT=!!S.days[sel],cur=S.att[sel]||{},KS=S.kids.filter(inG),cnt=KS.filter(k=>cur[k.id]).length;
+  return `<h2>Посещаемость</h2><p class="sub">Выберите дату в календаре, включите тренировку и отметьте учеников.</p>${gbar()}
+  <div class="split"><div class="panel">
+    <div class="mnav"><button data-a="pm">‹</button><b>${MON[m]} ${y}</b><button data-a="nm">›</button></div>
+    <div class="cal">${["Пн","Вт","Ср","Чт","Пт","Сб","Вс"].map(x=>`<span>${x}</span>`).join("")}${cells}</div>
+    <div class="legend">Красным — дни тренировок. Рамка — сегодня.</div><label>Постоянное расписание</label><div style="display:flex;gap:4px">${[1,2,3,4,5,6,0].map(w=>`<button class="tog ${(S.sched||[]).includes(w)?"on":""}" style="min-width:0;padding:6px 0;flex:1" data-a="sw" data-w="${w}">${["Вс","Пн","Вт","Ср","Чт","Пт","Сб"][w]}</button>`).join("")}</div><button class="btn ghost sm" style="margin-top:10px;width:100%" data-a="fill">Создать тренировки на месяц</button></div>
+  <div class="panel"><div class="row" style="margin:0 0 6px"><h2 style="margin:0;font-size:18px">${ru(sel)}</h2><button class="btn ghost sm" data-a="ev">Событие</button>
+    <button class="btn ${isT?"ghost":""} sm" data-a="tr">${isT?"Отменить тренировку":"Тренировка была"}</button></div>
+    ${evLine()}${isT?`<div class="row" style="margin:0 0 6px"><span class="meta">Пришли: ${cnt} из ${KS.length}</span><button class="btn ghost sm" data-a="all">Отметить всех</button></div>
+    ${KS.map(k=>`<div class="who"><div><b>${esc(k.name)}</b><br>${beltChip(k.belt)}</div><div style="display:flex;gap:6px;align-items:center">${cur[k.id]?"":`<select class="why" data-id="${k.id}" style="width:auto;padding:8px"><option value="">Причина…</option>${[["b","Болел"],["u","Уважительная"],["n","Без причины"]].map(r=>`<option value="${r[0]}" ${(S.why[sel]||{})[k.id]==r[0]?"selected":""}>${r[1]}</option>`).join("")}</select>`}<button class="tog ${cur[k.id]?"on":""}" data-a="p" data-id="${k.id}">${cur[k.id]?"✓ Был":"Не был"}</button></div></div>`).join("")}`
+    :`<div class="empty">В этот день тренировки нет.<br>Нажмите «Тренировка была», чтобы добавить день.</div>`}</div></div>`;
+}
+function vStat(){
+ const ks=S.kids.filter(inG),ds=trDays(),n=ks.length;
+ const rows=ks.map(k=>({k,...stat(k,ds),last:[...ds].reverse().find(d=>S.att[d]&&S.att[d][k.id])})).sort((a,b)=>b.p-a.p);
+ const sum=f=>rows.reduce((t,r)=>t+r[f],0),pres=sum("v"),den=sum("den"),pc=den?Math.round(pres/den*100):0;
+ const seg=[["Высокая (80% и выше)",r=>r.p>=80,"var(--ok)"],["Средняя (50–79%)",r=>r.p>=50&&r.p<80,"#f79009"],["Низкая (ниже 50%)",r=>r.p<50,"var(--red)"]];
+ const last=ds.slice(-12);
+ const bars=last.map(d=>{const c=ks.filter(k=>S.att[d]&&S.att[d][k.id]).length,p=n?Math.round(c/n*100):0;return `<div class="bc" title="${ru(d)}: ${c} из ${n}"><span class="meta">${c}</span><div style="height:${p}%"></div><span class="meta">${d.slice(8)}.${d.slice(5,7)}</span></div>`;}).join("");
+ return `<h2>Статистика</h2><p class="sub">Посещаемость, пропуски и активность учеников</p>
+ <div class="bar"><select id="per" style="max-width:200px"><option value="all" ${period=="all"?"selected":""}>За всё время</option><option value="month" ${period=="month"?"selected":""}>Текущий месяц</option></select>${groups().length?`<select id="gs" style="max-width:200px"><option value="">Все группы</option>${groups().map(g=>`<option ${g==grp?"selected":""}>${esc(g)}</option>`).join("")}</select>`:""}<span style="flex:1"></span><button class="btn ghost" data-a="rp">Отчёт для Excel</button><button class="btn ghost" data-a="jr">Печать журнала</button></div>
+ <div class="kpis"><div class="kpi"><b>${ds.length}</b><span>Тренировок проведено</span></div><div class="kpi"><b>${den?pc+"%":"—"}</b><span>Общая посещаемость</span></div><div class="kpi"><b>${ds.length?(pres/ds.length).toFixed(1):"—"}</b><span>Приходит на тренировку (из ${n})</span></div><div class="kpi"><b>${sum("nn")}</b><span>Пропусков без причины</span></div></div>
+ <div class="two" style="margin-bottom:16px"><div class="panel"><b>Явка на последних тренировках</b><div class="meta" style="margin-bottom:12px">Сколько учеников пришло</div>${last.length?`<div class="bars">${bars}</div>`:`<div class="empty">Нет данных</div>`}</div>
+ <div class="panel"><b>Уровень посещаемости</b><div class="meta" style="margin-bottom:14px">Количество учеников</div>${seg.map(g=>{const c=rows.filter(r=>r.den>0&&g[1](r)).length;return `<div style="margin-bottom:14px"><div class="row" style="margin:0 0 6px"><span>${g[0]}</span><b>${c}</b></div><div class="mini"><b style="width:${n?c/n*100:0}%;background:${g[2]}"></b></div></div>`}).join("")}</div></div>
+ <div class="panel" style="margin-bottom:16px"><b>Ученики</b><div class="scr"><table class="tbl"><tr><th>Ученик</th><th>Посещений</th><th>Посещаемость</th><th>Болел / уваж.</th><th>Без причины</th><th>Последний визит</th></tr>${rows.map(r=>`<tr><td><b>${esc(r.k.name.split(" ").slice(0,2).join(" "))}</b><br>${beltChip(r.k.belt)}</td><td>${r.v} из ${r.den}</td><td>${r.den>0?`<span class="pill ${r.p>=80?"g":r.p>=50?"y":"r"}">${r.p}%</span>`:"—"}</td><td>${r.ex}</td><td>${r.nn?`<span class="pill r">${r.nn}</span>`:0}</td><td>${r.last?ru(r.last):"—"}</td></tr>`).join("")}</table></div>${ds.length?"":`<div class="empty">Пока нет данных за выбранный период</div>`}</div>
+ ${lostBlock()}${chartHtml()}`;
+}
+
+const dlg=document.getElementById("dlg");
+document.getElementById("fb").innerHTML=BELTS.map((b,i)=>`<option value="${i}">${b[0]} пояс</option>`).join("");
+function openForm(id){editId=id;const k=S.kids.find(x=>x.id==id)||{name:"",dob:"",phone:"",belt:0};
+  document.getElementById("dt").textContent=id?"Редактировать":"Новый ученик";
+  fn.value=k.name;fd.value=k.dob;fp.value=k.phone;fb.value=k.belt;fb2.value=k.bdate||"";fg.value=k.group||"";fpn.value=k.parent||"";fp2.value=k.phone2||"";fm.value=k.med||"";fpd.value=k.paid||"";fnt.value=k.note||"";gl.innerHTML=groups().map(g=>`<option value="${esc(g)}">`).join("");fa.style.display=id?"":"none";dlg.showModal();}
+document.getElementById("cx").onclick=()=>dlg.close();
+document.getElementById("ok").onclick=()=>{
+  if(!fn.value.trim()){fn.focus();return;}
+  const o={name:fn.value.trim(),dob:fd.value,phone:fp.value.trim(),belt:+fb.value,bdate:fb2.value,group:fg.value.trim(),parent:fpn.value.trim(),phone2:fp2.value.trim(),med:fm.value,paid:fpd.value,note:fnt.value.trim()};
+  const old=S.kids.find(x=>x.id==editId);o.hist=(old&&old.hist)||[];if(!old||old.belt!=o.belt)o.hist.push({belt:o.belt,date:o.bdate||TK});if(old&&old.belt!=o.belt)o.done=[];
+  if(old)Object.assign(old,o);else S.kids.push({id:S.next++,...o});
+  save();dlg.close();render();};
+
+document.getElementById("nav").onclick=e=>{const b=e.target.closest("button");if(b){view=b.dataset.v;if(view=="today")sel=TK;render();}};
+document.getElementById("app").addEventListener("input",e=>{if(e.target.id=="q"){q=e.target.value;const p=e.target.selectionStart;render();const i=document.getElementById("q");i.focus();i.setSelectionRange(p,p);}});
+document.getElementById("app").addEventListener("change",e=>{if(e.target.id=="per"){period=e.target.value;render();}if(e.target.id=="gs"){grp=e.target.value;render();}if(e.target.id=="cs"){cs=e.target.value;render();}if(e.target.classList.contains("why")){const w=S.why[sel]=S.why[sel]||{};if(e.target.value)w[e.target.dataset.id]=e.target.value;else delete w[e.target.dataset.id];save();render();}});
+document.getElementById("app").addEventListener("click",e=>{
+  const b=e.target.closest("[data-a]");if(!b)return;const a=b.dataset.a,id=+b.dataset.id;
+  if(a=="add")return openForm(null);
+  if(a=="edit")return openForm(id);
+  if(a=="del"){return ask("Удалить ученика?",()=>{S.kids=S.kids.filter(k=>k.id!=id);for(const d in S.att)delete S.att[d][id];save();render();});}
+  if(a=="ev")return openEv();if(a=="rq")return openReq(id);if(a=="jr")return printDoc("j");
+  if(a=="goatt"){view="att";sel=TK;month=new Date(now.getFullYear(),now.getMonth(),1);}
+  if(a=="bk")return openData("b");if(a=="rp")return openData("r");
+  if(a=="sw"){const w=+b.dataset.w;S.sched=S.sched||[];S.sched=S.sched.includes(w)?S.sched.filter(x=>x!=w):[...S.sched,w];save();}
+  if(a=="fill"){const y=month.getFullYear(),m=month.getMonth();for(let d=1;d<=new Date(y,m+1,0).getDate();d++){const dt=new Date(y,m,d),k=fmt(dt);if((S.sched||[]).includes(dt.getDay())&&!S.days[k]&&!(S.ev[k]&&S.ev[k].t=="o")){S.days[k]=1;S.att[k]=S.att[k]||{};}}save();}
+  if(a=="pm")month=new Date(month.getFullYear(),month.getMonth()-1,1);
+  if(a=="nm")month=new Date(month.getFullYear(),month.getMonth()+1,1);
+  if(a=="day")sel=b.dataset.k;
+  if(a=="tr"){if(S.days[sel]){const d=sel;return ask("Убрать тренировку и отметки посещаемости за "+ru(d)+"?",()=>{delete S.days[d];delete S.att[d];delete S.why[d];save();render();});}S.days[sel]=1;S.att[sel]=S.att[sel]||{};save();}
+  if(a=="p"){const c=S.att[sel]=S.att[sel]||{};if(c[id])delete c[id];else{c[id]=1;if(S.why[sel])delete S.why[sel][id];}save();}
+  if(a=="all"){const c=S.att[sel]=S.att[sel]||{};const KS=S.kids.filter(inG),full=KS.every(k=>c[k.id]);KS.forEach(k=>{if(full)delete c[k.id];else c[k.id]=1;});save();}
+  render();});
+render();
+pc.onclick=()=>pv.close();pp.onclick=()=>window.print();
+evc.onclick=()=>evd.close();
+evx.onclick=()=>{delete S.ev[sel];save();evd.close();render();};
+evk.onclick=()=>{S.ev[sel]={t:evt.value,n:evn.value.trim()};if(evt.value=="o"){delete S.days[sel];delete S.att[sel];}save();evd.close();render();};
+rq.onclick=e=>{const k=S.kids.find(x=>x.id==rid),t=e.target;if(t.dataset.i!==undefined){k.done=k.done||[];k.done[+t.dataset.i]=t.checked;save();openReq(rid);render();return;}
+ if(t.dataset.r=="x")rq.close();if(t.dataset.r=="g"){rq.close();printDoc("g",k);}
+ if(t.dataset.r=="p"){k.belt++;k.bdate=TK;k.hist=k.hist||[];k.hist.push({belt:k.belt,date:TK});k.done=[];save();rq.close();render();printDoc("c",k);}};
+let cb=null;function ask(t,f){cft.textContent=t;cb=f;cf.showModal();}
+cfy.onclick=()=>{cf.close();if(cb)cb();};cfn.onclick=()=>cf.close();
+fa.onclick=()=>{if(editId){dlg.close();openReq(editId);}};
+dc.onclick=()=>dd.close();
+dk.onclick=async()=>{dx.select();try{await navigator.clipboard.writeText(dx.value)}catch(e){try{document.execCommand("copy")}catch(_){}}dk.textContent="Скопировано ✓";setTimeout(()=>dk.textContent="Копировать",1500);};
+dl.onclick=()=>{try{const d=JSON.parse(dx.value);if(!d.kids)throw 0;ask("Заменить текущие данные?",()=>{S=d;S.sched=S.sched||[2,4];S.ev=S.ev||{};S.why=S.why||{};save();dd.close();render();});}catch(e){dds.textContent="Не удалось прочитать копию";}};
+</script>
+</body>
+</html>

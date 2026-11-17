@@ -1,0 +1,6 @@
+{
+  "appId": "ru.karate.dojo",
+  "appName": "Додзё",
+  "webDir": "www",
+  "android": { "backgroundColor": "#f5f6f8" }
+}
